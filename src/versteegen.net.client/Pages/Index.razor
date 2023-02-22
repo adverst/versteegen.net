@@ -1,9 +1,68 @@
 ﻿@page "/"
+@using versteegen.net.client.Components.UI
 
-<PageTitle>Index</PageTitle>
+	<!--Container-->
+	<div class="container w-full md:max-w-3xl mx-auto pt-20">
 
-<h1>Hello, world!</h1>
+		<div class="w-full px-4 md:px-6 text-xl text-gray-800 leading-normal" style="font-family:Georgia,serif;">
 
-Welcome to your new app.
 
-<SurveyPrompt Title="How is Blazor working for you?" />
+
+
+			<!--Post Content-->
+
+
+			<!--Lead Para-->
+			<p class="py-6">
+				👋 Hi  
+			</p>
+
+			<h6 class="py-2 font-sans">Arrr</h6>
+
+		<p class="py-6">Also <a class="text-green-500 no-underline hover:underline" href="https://www.invarion.com">this</a></p>
+
+			<ol>
+				<li class="py-3">Maecenas accumsan lacus sit amet elementum porta. Aliquam eu libero lectus. Fusce vehicula dictum mi. In non dolor at sem ullamcorper venenatis ut sed dui. Ut ut est quam. Suspendisse quam quam, commodo sit amet placerat in, interdum a ipsum. Morbi sit amet tellus scelerisque tortor semper posuere.</li>
+			</ol>
+
+            <Blockquote AuthorString="-Wayne Gretzky -Michael Scott">
+                You miss 100% of the shots you don't take
+            </Blockquote>
+
+            <Codeblock>
+
+			@GetcodeString()
+            </Codeblock>
+
+
+			<!--/ Post Content-->
+
+		</div>
+
+
+
+		<!--Divider-->
+		<hr class="border-b-2 border-gray-400 mb-8 mx-4">
+
+
+
+        <Author></Author>
+
+
+
+
+        <!--Divider-->
+		<hr class="border-b-2 border-gray-400 mb-8 mx-4">
+
+		<NextAndPrevious></NextAndPrevious>
+
+	</div>
+<!--/container-->
+
+				@code
+                {
+				    MarkupString GetcodeString()
+				    {
+				        return (MarkupString)">++++++++[<+++++++++>-]<.>++++[<+++++++>-]<+.+++++++..+++.>>++++++[<+++++++>-]<++.------------.>++++++[<+++++++++>-]<+.<.+++.------.--------.>>>++++[<++++++++>-]<+.";
+				    }
+				}
