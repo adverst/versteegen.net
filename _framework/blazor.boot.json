@@ -7,7 +7,7 @@
   "linkerEnabled": true,
   "resources": {
     "assembly": {
-      "Microsoft.AspNetCore.Components.dll": "sha256-NfSGKlWbLot2zpAQq0wzEPbi5AJE3TaG+ndZzK+R1qY=",
+      "Microsoft.AspNetCore.Components.dll": "sha256-virb+8Vsxeg0sR76XH93wt70xlNGirspsI5kDc4KGl8=",
       "Microsoft.AspNetCore.Components.Forms.dll": "sha256-y4A+NZ3oz5AM+xaqipk62jN7Gq\/GMNNR9vUWHAuqEHA=",
       "Microsoft.AspNetCore.Components.Web.dll": "sha256-YTYmO3vL2RJHrIyEGTnl6ikrmWX7EwR42d0lab7qNZs=",
       "Microsoft.AspNetCore.Components.WebAssembly.dll": "sha256-2Jg3mQhCSyqkofbgXHMRw0whL7fAl07+VKYd0lApk7I=",
@@ -48,7 +48,7 @@
       "System.Text.Encodings.Web.dll": "sha256-hnmkcWS1u4akDjNnEVBY3N9HGT+VmFajs8yg5AdB2mo=",
       "System.Text.Json.dll": "sha256-FytgNjtn17HjhPmQlm7QHA+\/V950166rm4O8Fr6IIoY=",
       "System.Threading.dll": "sha256-38kfO7O4fbEH6LNscgAzs2vSIBs4Qi34uNO8Hp9cipI=",
-      "versteegen.net.client.dll": "sha256-GDLQsWQeycNiS\/dNReJx3rZpDrYusUQANsqIjM9l20E="
+      "versteegen.net.client.dll": "sha256-FKpYgAIq9HNwHUi7vBEayleHzOPt67PVxhj2qggHkLY="
     },
     "extensions": null,
     "lazyAssembly": null,
