@@ -18,11 +18,13 @@ jobs:
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 7.0.102
-    - run: dotnet build src/versteegen.net.client/versteegen.net.client.csproj
         
     #get workloads
     - name: Get Workloads
       run: dotnet workload restore src/versteegen.net.client/versteegen.net.client.csproj
+      
+    - name: Get Wwasmt
+      run: dotnet workload install wasm-tools
     
     # publishes Blazor project to the release-folder
     - name: Publish .NET Core Project
