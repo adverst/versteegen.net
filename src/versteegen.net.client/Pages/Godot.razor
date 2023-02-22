@@ -1,25 +1,61 @@
 ﻿@page "/godot"
 
-<h3>Godot</h3>
+<div class="container w-full md:max-w-3xl mx-auto pt-20">
 
-<canvas id='canvas'>
-    HTML5 canvas appears to be unsupported in the current browser.<br />
-    Please try updating or use a different browser.
-</canvas>
-<div id='status'>
-    <div id='status-progress' style='display: none;' oncontextmenu='event.preventDefault();'><div id ='status-progress-inner'></div></div>
-    <div id='status-indeterminate' style='display: none;' oncontextmenu='event.preventDefault();'>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
+    <div class="w-full px-4 md:px-6 text-xl text-gray-800 leading-normal" style="font-family:Georgia,serif;">
+
+
+
+
+        <!--Post Content-->
+        <!--Lead Para-->
+        <p class="py-6">
+            👋 Hi... Testing Godot in Blazor
+        </p>
+
+
+        <div>
+
+            <canvas id='canvas'>
+                HTML5 canvas appears to be unsupported in the current browser.
+                <br />
+                Please try updating or use a different browser.
+            </canvas>
+            <div id='status'>
+                <div id='status-progress' style='display: none;' oncontextmenu='event.preventDefault();'><div id='status-progress-inner'></div></div>
+                <div id='status-indeterminate' style='display: none;' oncontextmenu='event.preventDefault();'>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                </div>
+                <div id='status-notice' class='godot' style='display: none;'></div>
+            </div>
+        </div>
+
+        <!--/ Post Content-->
+
     </div>
-    <div id='status-notice' class='godot' style='display: none;'></div>
+
+
+
+    <!--Divider-->
+    <hr class="border-b-2 border-gray-400 mb-8 mx-4">
+
+
+
+    <Author></Author>
+
+
+
+
+    <!--Divider-->
+    <hr class="border-b-2 border-gray-400 mb-8 mx-4">
+
+    <NextAndPrevious></NextAndPrevious>
+
 </div>
-
-<button onclick="@StartGodot">Launch it</button>
-

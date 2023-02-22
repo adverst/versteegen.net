@@ -5,10 +5,9 @@ launchGodot = () => {
 
 	const GODOT_CONFIG = {
 		"args": [],
-		"canvasResizePolicy": 2,
-		"executable": "../godotTest/isotest",
+		"canvasResizePolicy": 0,
+		"executable": "godotTest/2DParticles",
 		"experimentalVK": false,
-		"fileSizes": { "../godotTest/isotest.pck": 203312, "../godotTest/isotest.wasm": 17862218 },
 		"focusCanvas": true,
 		"gdnativeLibs": []
 	};
