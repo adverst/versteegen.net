@@ -1,68 +1,142 @@
 ﻿@page "/"
+@page "/{CurrentPageName}"
 @using versteegen.net.client.Components.UI
+@using versteegen.net.client.Model
+@using versteegen.net.client.Components.UI.Markdown
+@using System.Net
+@using System.Net.Http
+@inject HttpClient Http
 
-	<!--Container-->
-	<div class="container w-full md:max-w-3xl mx-auto pt-20">
+<!--Container-->
+<div class="container w-full md:max-w-3xl mx-auto pt-20">
 
-		<div class="w-full px-4 md:px-6 text-xl text-gray-800 leading-normal" style="font-family:Georgia,serif;">
-
-
-
-
-			<!--Post Content-->
-
-
-			<!--Lead Para-->
-			<p class="py-6">
-				👋 Hi  
-			</p>
-
-			<h6 class="py-2 font-sans">Arrr</h6>
-
-		<p class="py-6">Also <a class="text-green-500 no-underline hover:underline" href="https://www.invarion.com">this</a></p>
-
-			<ol>
-				<li class="py-3">Maecenas accumsan lacus sit amet elementum porta. Aliquam eu libero lectus. Fusce vehicula dictum mi. In non dolor at sem ullamcorper venenatis ut sed dui. Ut ut est quam. Suspendisse quam quam, commodo sit amet placerat in, interdum a ipsum. Morbi sit amet tellus scelerisque tortor semper posuere.</li>
-			</ol>
-
-            <Blockquote AuthorString="-Wayne Gretzky -Michael Scott">
-                You miss 100% of the shots you don't take
-            </Blockquote>
-
-            <Codeblock>
-
-			@GetcodeString()
-            </Codeblock>
-
-
-			<!--/ Post Content-->
-
-		</div>
-
-
-
-		<!--Divider-->
-		<hr class="border-b-2 border-gray-400 mb-8 mx-4">
-
-
-
-        <Author></Author>
+    <div class="w-full px-4 md:px-6 text-xl text-gray-800 leading-normal" style="font-family:Georgia,serif;">
 
 
 
 
-        <!--Divider-->
-		<hr class="border-b-2 border-gray-400 mb-8 mx-4">
+        <!--Post Content-->
+        <!--Lead Para-->
+        <p class="py-6">
+            👋 Hi
+        </p>
 
-		<NextAndPrevious></NextAndPrevious>
+        <h6 class="py-2 font-sans">Arrr</h6>
 
-	</div>
+        <p class="py-6">Also <a class="text-green-500 no-underline hover:underline" href="https://www.invarion.com">this</a></p>
+
+        <ol>
+            <li class="py-3">Maecenas accumsan lacus sit amet elementum porta. Aliquam eu libero lectus. Fusce vehicula dictum mi. In non dolor at sem ullamcorper venenatis ut sed dui. Ut ut est quam. Suspendisse quam quam, commodo sit amet placerat in, interdum a ipsum. Morbi sit amet tellus scelerisque tortor semper posuere.</li>
+        </ol>
+
+
+
+
+        <MarkdownView MarkdownString="@CurrentPage?.Content"></MarkdownView>
+
+        <Blockquote AuthorString="-Wayne Gretzky -Michael Scott">
+            You miss 100% of the shots you don't take
+        </Blockquote>
+
+        <Codeblock>
+
+            @GetcodeString()
+        </Codeblock>
+
+
+        <!--/ Post Content-->
+
+    </div>
+
+
+
+    <!--Divider-->
+    <hr class="border-b-2 border-gray-400 mb-8 mx-4">
+
+
+
+    <Author></Author>
+
+
+
+
+    <!--Divider-->
+    <hr class="border-b-2 border-gray-400 mb-8 mx-4">
+
+    <NextAndPrevious CurrentPageNode="@CurrentNode"></NextAndPrevious>
+
+</div>
 <!--/container-->
+@code
+{
 
-				@code
-                {
-				    MarkupString GetcodeString()
-				    {
-				        return (MarkupString)">++++++++[<+++++++++>-]<.>++++[<+++++++>-]<+.+++++++..+++.>>++++++[<+++++++>-]<++.------------.>++++++[<+++++++++>-]<+.<.+++.------.--------.>>>++++[<++++++++>-]<+.";
-				    }
-				}
+    private LinkedList<MarkdownPage> AllPages { get; set; } = new LinkedList<MarkdownPage>();
+    private MarkdownPage? CurrentPage { get; set; }
+    private LinkedListNode<MarkdownPage>? CurrentNode { get; set; } = null;
+
+    [Parameter]
+    public string CurrentPageName { get; set; } = "";
+
+    protected MarkupString GetcodeString()
+    {
+        return (MarkupString)">++++++++[<+++++++++>-]<.>++++[<+++++++>-]<+.+++++++..+++.>>++++++[<+++++++>-]<++.------------.>++++++[<+++++++++>-]<+.<.+++.------.--------.>>>++++[<++++++++>-]<+.";
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await BuildIndex();
+
+        await base.OnInitializedAsync();
+    }
+
+    public async Task GetCurrentNode()
+    {
+        if (CurrentPage == null)
+            await BuildIndex();
+
+        if (CurrentPage == null) return;
+
+        var nodeByName = AllPages.FirstOrDefault(x => x.PageName == CurrentPageName);
+
+        if (nodeByName != null)
+        {
+
+            CurrentNode = AllPages.Find(nodeByName);
+        }
+        else
+        {
+            CurrentNode = AllPages.Last;
+        }
+
+        StateHasChanged();
+    }
+
+    public async Task BuildIndex()
+    {
+        AllPages.Clear();
+
+        await AddPageToIndex("testPage");
+        await AddPageToIndex("testPage1");
+        await AddPageToIndex("testPage2");
+
+        StateHasChanged();
+    }
+
+    public async Task AddPageToIndex(string url)
+    {
+        var page = await Http.GetStringAsync($"md/{url}.md");
+
+        var newPage = new MarkdownPage()
+            {
+                Content = page,
+                Uri = url,
+                PageName = url
+            };
+
+        CurrentPage = newPage;
+
+        AllPages.AddLast(newPage);
+    }
+
+}
+

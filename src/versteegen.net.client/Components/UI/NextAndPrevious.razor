@@ -1,14 +1,29 @@
-﻿<!--Next & Prev Links-->
+﻿@using versteegen.net.client.Model
+<!--Next & Prev Links-->
 <div class="font-sans flex justify-between content-center px-4 pb-12">
     <div class="text-left">
-        <span class="text-xs md:text-sm font-normal text-gray-600">&lt; Previous </span><br>
-        <p><a href="#" class="break-normal text-base md:text-sm text-green-500 font-bold no-underline hover:underline">Nothing Here</a></p>
+        @if (CurrentPageNode is {Previous: { } })
+        {
+            <span class="text-xs md:text-sm font-normal text-gray-600">&lt; Previous </span>
+            <br>
+            <p><a href="" class="break-normal text-base md:text-sm text-green-500 font-bold no-underline hover:underline">Nothing Here @CurrentPageNode?.Previous.Value.Uri</a></p>
+        }
     </div>
     <div class="text-right">
-        <span class="text-xs md:text-sm font-normal text-gray-600">Next Post &gt;</span><br>
-        <p><a href="#" class="break-normal text-base md:text-sm text-green-500 font-bold no-underline hover:underline">Or there</a></p>
+            @if (CurrentPageNode is {Next: { } })
+            {
+                <span class="text-xs md:text-sm font-normal text-gray-600">Next Post &gt;</span>
+                <br>
+                <p><a href="#" class="break-normal text-base md:text-sm text-green-500 font-bold no-underline hover:underline">Or there @CurrentPageNode?.Next?.Value.Uri</a></p>
+            }
     </div>
 </div>
 
 
 <!--/Next & Prev Links-->
+
+@code
+{
+    [Parameter]
+    public LinkedListNode<MarkdownPage>? CurrentPageNode { get; set; }
+}
