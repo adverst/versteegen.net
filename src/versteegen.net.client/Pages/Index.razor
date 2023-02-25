@@ -21,10 +21,6 @@
 
         <MarkdownView MarkdownString="@CurrentPage?.Content"></MarkdownView>
 
-        <Blockquote AuthorString="-Wayne Gretzky -Michael Scott">
-            You miss 100% of the shots you don't take
-        </Blockquote>
-
 
         <!--/ Post Content-->
 
@@ -59,23 +55,21 @@
     [Parameter]
     public string CurrentPageName { get; set; } = "";
 
-    protected MarkupString GetcodeString()
-    {
-        return (MarkupString)">++++++++[<+++++++++>-]<.>++++[<+++++++>-]<+.+++++++..+++.>>++++++[<+++++++>-]<++.------------.>++++++[<+++++++++>-]<+.<.+++.------.--------.>>>++++[<++++++++>-]<+.";
-    }
-
     protected override async Task OnInitializedAsync()
     {
         await BuildIndex();
         await GetCurrentNode();
 
         await base.OnInitializedAsync();
+
+        await JS.InvokeVoidAsync("hljs.highlightAll");
     }
 
     protected override async Task OnParametersSetAsync()
     {
         await GetCurrentNode();
         StateHasChanged();
+        await JS.InvokeVoidAsync("hljs.highlightAll");
     }
 
     public async Task GetCurrentNode()
