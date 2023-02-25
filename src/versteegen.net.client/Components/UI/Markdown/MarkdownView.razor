@@ -11,8 +11,14 @@
 
     public MarkupString GetAsMarkup()
     {
+        var pipeline = new MarkdownPipelineBuilder().UseAdvancedExtensions();
+        pipeline.Extensions.AddIfNotAlready(new Markdig.Extensions.GenericAttributes.GenericAttributesExtension());
+        pipeline.Extensions.AddIfNotAlready(new Markdig.Extensions.Bootstrap.BootstrapExtension());
+
+        var built = pipeline.Build();
+            
         if (!string.IsNullOrEmpty(MarkdownString))
-            return (MarkupString)Markdown.ToHtml(MarkdownString);
+            return (MarkupString)Markdown.ToHtml(MarkdownString, built);
         else return new MarkupString("");
     }
 }

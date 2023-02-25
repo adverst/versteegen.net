@@ -21,7 +21,7 @@
     <Content Update="wwwroot\md\testPage1.md">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Update="wwwroot\md\testPage.md">
+    <Content Update="wwwroot\md\p1.md">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

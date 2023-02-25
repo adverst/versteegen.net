@@ -6,14 +6,12 @@
 @using System.Net
 @using System.Net.Http
 @inject HttpClient Http
+@inject IJSRuntime JS
 
 <!--Container-->
 <div class="container w-full md:max-w-3xl mx-auto pt-20">
 
     <div class="w-full px-4 md:px-6 text-xl text-gray-800 leading-normal" style="font-family:Georgia,serif;">
-
-
-
 
         <!--Post Content-->
         <!--Lead Para-->
@@ -21,27 +19,11 @@
             👋 Hi
         </p>
 
-        <h6 class="py-2 font-sans">Arrr</h6>
-
-        <p class="py-6">Also <a class="text-green-500 no-underline hover:underline" href="https://www.invarion.com">this</a></p>
-
-        <ol>
-            <li class="py-3">Maecenas accumsan lacus sit amet elementum porta. Aliquam eu libero lectus. Fusce vehicula dictum mi. In non dolor at sem ullamcorper venenatis ut sed dui. Ut ut est quam. Suspendisse quam quam, commodo sit amet placerat in, interdum a ipsum. Morbi sit amet tellus scelerisque tortor semper posuere.</li>
-        </ol>
-
-
-
-
         <MarkdownView MarkdownString="@CurrentPage?.Content"></MarkdownView>
 
         <Blockquote AuthorString="-Wayne Gretzky -Michael Scott">
             You miss 100% of the shots you don't take
         </Blockquote>
-
-        <Codeblock>
-
-            @GetcodeString()
-        </Codeblock>
 
 
         <!--/ Post Content-->
@@ -85,8 +67,15 @@
     protected override async Task OnInitializedAsync()
     {
         await BuildIndex();
+        await GetCurrentNode();
 
         await base.OnInitializedAsync();
+    }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        await GetCurrentNode();
+        StateHasChanged();
     }
 
     public async Task GetCurrentNode()
@@ -108,14 +97,17 @@
             CurrentNode = AllPages.Last;
         }
 
+        CurrentPage = CurrentNode?.Value;
+
         StateHasChanged();
+        await JS.InvokeVoidAsync("hljs.highlightAll");
     }
 
     public async Task BuildIndex()
     {
         AllPages.Clear();
 
-        await AddPageToIndex("testPage");
+        await AddPageToIndex("p1");
         await AddPageToIndex("testPage1");
         await AddPageToIndex("testPage2");
 
@@ -124,7 +116,7 @@
 
     public async Task AddPageToIndex(string url)
     {
-        var page = await Http.GetStringAsync($"md/{url}.md");
+        var page = await Http.GetStringAsync($"md/{url}.md?nocache={Guid.NewGuid()}");
 
         var newPage = new MarkdownPage()
             {
