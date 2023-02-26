@@ -1,4 +1,5 @@
-﻿<nav id="header" class="fixed w-full z-10 top-0">
+﻿@using versteegen.net.client.Model
+<nav id="header" class="fixed w-full z-10 top-0">
 
     <div id="progress" class="h-1 z-20 top-0" style="background:linear-gradient(to right, #4dc0b5 var(--scroll), transparent 0);"></div>
 
@@ -22,16 +23,52 @@
         <div class="w-full flex-grow lg:flex lg:items-center lg:w-auto hidden lg:block mt-2 lg:mt-0 bg-gray-100 md:bg-transparent z-20" id="nav-content">
             <ul class="list-reset lg:flex justify-end flex-1 items-center">
                 <li class="mr-3">
-                    <a class="inline-block py-2 px-4 text-gray-900 font-bold no-underline" href="#">Active</a>
+                    <div class="relative inline-block text-left">
+                        <div>
+                            <button type="button" onclick="@ShowDropDown" class="inline-flex w-full justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-100" id="menu-button" aria-expanded="true" aria-haspopup="true">
+                                Index
+                                <svg class="-mr-1 ml-2 h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                    <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clip-rule="evenodd" />
+                                </svg>
+                            </button>
+                        </div>
+
+                        @if (_dropDownVisible)
+                        {
+                            <div class="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
+                                <div class="py-1" role="none">
+                                    <!-- Active: "bg-gray-100 text-gray-900", Not Active: "text-gray-700" -->
+                                    @if (AllPages != null)
+                                    {
+                                        foreach (var mdPage in AllPages)
+                                        {
+                                            <a href="@mdPage.Uri" class="text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1" id="menu-item-0">@mdPage.PageTitle</a>
+                                        }
+                                    }
+                                </div>
+                            </div>
+                        }
+                    </div>
                 </li>
                 <li class="mr-3">
-                    <a class="inline-block text-gray-600 no-underline hover:text-gray-900 hover:text-underline py-2 px-4" href="#">link</a>
-                </li>
-                <li class="mr-3">
-                    <a class="inline-block text-gray-600 no-underline hover:text-gray-900 hover:text-underline py-2 px-4" href="/godot">link</a>
+                    <a class="inline-block text-gray-600 no-underline hover:text-gray-900 hover:text-underline py-2 px-4" href="/godot">Godot</a>
                 </li>
             </ul>
         </div>
     </div>
 </nav>
 
+
+@code
+{
+    [Parameter]
+    public LinkedList<MarkdownPage>? AllPages { get; set; }
+
+    private bool _dropDownVisible = false;
+
+    protected void ShowDropDown()
+    {
+        _dropDownVisible = !_dropDownVisible;
+    }
+
+}
