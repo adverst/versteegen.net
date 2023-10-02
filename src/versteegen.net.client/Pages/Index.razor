@@ -8,6 +8,7 @@
 @inject HttpClient Http
 @inject IJSRuntime JS
 
+<NavMenu AllPages="@AllPages" ></NavMenu>
 <!--Container-->
 <div class="container w-full md:max-w-3xl mx-auto pt-20">
 
@@ -112,11 +113,18 @@
     {
         var page = await Http.GetStringAsync($"md/{url}.md?nocache={Guid.NewGuid()}");
 
+        using var reader = new StringReader(page);
+        var first = await reader.ReadLineAsync();
+
+        if (first != null && first.Length > 3)
+            first = first.Remove(0, 2);
+
         var newPage = new MarkdownPage()
             {
                 Content = page,
                 Uri = url,
-                PageName = url
+                PageName = url,
+                PageTitle = first ?? ""
             };
 
         CurrentPage = newPage;

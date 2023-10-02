@@ -5,5 +5,6 @@
         public string Uri { get; set; } = "";
         public string Content { get; set; } = "";
         public string PageName { get; set; } = "";
+        public string PageTitle { get; set; } = "";
     }
 }
