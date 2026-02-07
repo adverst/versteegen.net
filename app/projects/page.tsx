@@ -1,35 +1,74 @@
-import projectsData from '@/data/projectsData'
-import Card from '@/components/Card'
+import Link from '@/components/Link'
+import siteMetadata from '@/data/siteMetadata'
+import { allProjects } from 'contentlayer/generated'
+import { formatDate } from 'pliny/utils/formatDate'
 import { genPageMetadata } from 'app/seo'
 
 export const metadata = genPageMetadata({ title: 'Projects' })
 
-export default function Projects() {
+export default function ProjectsPage() {
+  const projects = [...allProjects].sort((a, b) => {
+    const aTime = a.date ? new Date(a.date).getTime() : 0
+    const bTime = b.date ? new Date(b.date).getTime() : 0
+    return bTime - aTime
+  })
+
   return (
-    <>
-      <div className="divide-y divide-gray-200 dark:divide-gray-700">
-        <div className="space-y-2 pt-6 pb-8 md:space-y-5">
-          <h1 className="text-3xl leading-9 font-extrabold tracking-tight text-gray-900 sm:text-4xl sm:leading-10 md:text-6xl md:leading-14 dark:text-gray-100">
-            Projects
-          </h1>
-          <p className="text-lg leading-7 text-gray-500 dark:text-gray-400">
-            Showcase your projects with a hero image (16 x 9)
-          </p>
-        </div>
-        <div className="container py-12">
-          <div className="-m-4 flex flex-wrap">
-            {projectsData.map((d) => (
-              <Card
-                key={d.title}
-                title={d.title}
-                description={d.description}
-                imgSrc={d.imgSrc}
-                href={d.href}
-              />
-            ))}
-          </div>
-        </div>
+    <div className="space-y-10 pb-16">
+      <header className="space-y-3">
+        <p className="text-xs font-semibold uppercase tracking-[0.35em] text-black/50">
+          Projects
+        </p>
+        <h1 className="text-4xl text-black md:text-5xl">All Projects</h1>
+      </header>
+
+      <div className="grid gap-6 md:grid-cols-2">
+        {projects.map((project) => (
+          <article
+            key={project.slug}
+            className="flex flex-col justify-between rounded-2xl border border-black/10 bg-white/80 p-6 shadow-[0_20px_60px_-50px_rgba(15,23,42,0.45)]"
+          >
+            <div className="space-y-4">
+              <div className="flex flex-wrap items-center gap-3 text-xs font-semibold uppercase tracking-[0.2em] text-black/40">
+                <span>{project.status || 'In progress'}</span>
+                {project.date && (
+                  <>
+                    <span className="h-1 w-1 rounded-full bg-black/30" />
+                    <span>{formatDate(project.date, siteMetadata.locale)}</span>
+                  </>
+                )}
+              </div>
+              <h2 className="text-2xl text-black">{project.title}</h2>
+              <p className="text-sm text-black/60">{project.summary}</p>
+              {project.tags?.length ? (
+                <div className="flex flex-wrap gap-2 text-xs text-black/50">
+                  {project.tags.map((tag) => (
+                    <span key={tag} className="rounded-full bg-black/5 px-3 py-1">
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+              ) : null}
+            </div>
+            <div className="mt-6 flex flex-wrap gap-3 text-xs font-semibold uppercase tracking-[0.2em] text-black/60">
+              {project.links?.live && (
+                <Link href={project.links.live} className="hover:text-black">
+                  Live
+                </Link>
+              )}
+              {project.links?.repo && (
+                <Link href={project.links.repo} className="hover:text-black">
+                  Repo
+                </Link>
+              )}
+              <Link href={`/projects/${project.slug}`} className="hover:text-black">
+                Details
+              </Link>
+            </div>
+          </article>
+        ))}
       </div>
-    </>
+    </div>
   )
 }
+
