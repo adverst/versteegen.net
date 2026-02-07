@@ -8,6 +8,20 @@
 !/.yarn/releases
 !/.yarn/plugins
 !/.yarn/sdks
+/.yarn/cache
+/.yarn/unplugged
+/.yarn/build-state.yml
+/.yarn/install-state.gz
+
+# package managers
+pnpm-lock.yaml
+package-lock.json
+
+# cache
+.cache
+.turbo
+.parcel-cache
+.eslintcache
 
 # testing
 /coverage
@@ -30,18 +44,38 @@ public/sitemap.xml
 
 # misc
 .DS_Store
+Thumbs.db
 
 # debug
 *.log
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+pnpm-debug.log*
+
+# IDE / tooling
+.vs
+*.suo
+*.user
+*.rsuser
+.idea
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
 
 # local env files
+.env
 .env.local
 .env.development.local
 .env.test.local
 .env.production.local
+.env.*.local
 
 # Contentlayer
 .contentlayer
+
+# .NET build artifacts
+**/bin
+**/obj
